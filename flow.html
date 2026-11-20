@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>body { margin: 0 } * { box-sizing: border-box } img { max-width: 100% }</style>
+<title>Breathe With Me Flow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+/* one long page: a short intro, then one flow chart per part of the app, each with a few plain lines under it */
+:root {
+  --bg: #F7F6F1; --surface: #FFFFFF; --ink: #2F4136; --muted: #5E7466; --line: #DCE3D6;
+  --sage: #4A6355; --pistachio: #E2EADA; --lavender: #E7E1F3; --lav-ink: #5B4E80;
+  --blush: #F6E1DC; --rose: #8E433B; --sky: #DDE8F0; --sky-ink: #3D5A6E;
+  --display: "Fraunces", Georgia, serif; --body: "Lato", -apple-system, "Helvetica Neue", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141A16; --surface: #1C241F; --ink: #E4ECE2; --muted: #9DB0A2; --line: #2C3830;
+  --sage: #A9C4B0; --pistachio: #26332B; --lavender: #2B2638; --lav-ink: #CFC3EE;
+  --blush: #3A2724; --rose: #F0B8AE; --sky: #1F2C35; --sky-ink: #B5CDE0; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #141A16; --surface: #1C241F; --ink: #E4ECE2; --muted: #9DB0A2; --line: #2C3830;
+  --sage: #A9C4B0; --pistachio: #26332B; --lavender: #2B2638; --lav-ink: #CFC3EE;
+  --blush: #3A2724; --rose: #F0B8AE; --sky: #1F2C35; --sky-ink: #B5CDE0; color-scheme: dark }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-weight: 600; font-size: clamp(32px, 5vw, 46px); line-height: 1.1; margin: 8px 0 12px; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 66ch; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+nav a { color: var(--ink); text-decoration: none; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 999px; background: var(--pistachio); }
+nav a:hover, nav a:focus-visible { outline: 2px solid var(--sage); outline-offset: 1px; }
+.legend { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 18px; font-size: 13px; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 18px; height: 12px; border-radius: 4px; border: 1.5px solid; display: inline-block; }
+.k-screen { background: var(--surface); border-color: var(--sage) !important; }
+.k-ask { background: var(--pistachio); border-color: var(--sage) !important; transform: rotate(45deg) scale(.8); border-radius: 2px !important; }
+.k-ai { background: var(--lavender); border-color: var(--lav-ink) !important; }
+.k-help { background: var(--blush); border-color: var(--rose) !important; }
+.k-save { background: var(--sky); border-color: var(--sky-ink) !important; }
+section { padding-top: 48px; scroll-margin-top: 16px; }
+h2 { font-family: var(--display); font-weight: 600; font-size: 28px; margin: 0 0 6px; }
+.intro { margin: 0 0 18px; color: var(--muted); max-width: 70ch; }
+.chart { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 20px 12px; overflow-x: auto; }
+.chart svg { display: block; margin: 0 auto; height: auto; }
+.chart .wait { color: var(--muted); font-size: 14px; text-align: center; padding: 40px 0; }
+.notes { margin: 16px 0 0; padding-left: 20px; display: grid; gap: 6px; max-width: 75ch; }
+.notes li::marker { color: var(--sage); }
+footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+</style>
+
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">iPhone app · how it works</span>
+  <h1>Breathe With Me, step by step</h1>
+  <p class="lede">What happens after each tap and each answer, from opening the app to saving a session. One chart per part of the app.</p>
+  <nav aria-label="Sections">
+    <a href="#overview">The app</a><a href="#session">Help session</a><a href="#chat">AI chat</a>
+    <a href="#pause">Crisis pause</a><a href="#calm">Calm check</a><a href="#account">Account and saving</a>
+    <a href="./">All screens →</a>
+  </nav>
+  <div class="legend" aria-label="Legend">
+    <span><i class="k-screen"></i>Screen</span>
+    <span><i class="k-ask"></i>Question or check</span>
+    <span><i class="k-ai"></i>AI</span>
+    <span><i class="k-help"></i>Urgent help</span>
+    <span><i class="k-save"></i>Saved</span>
+  </div>
+
+  <section id="overview">
+    <h2>The app</h2>
+    <p class="intro">Everything starts on Home. Start is the main button, the rest is for calmer moments.</p>
+    <div class="chart" data-flow="f-overview"><p class="wait">Loading chart…</p></div>
+    <ul class="notes">
+      <li>Every help page has an urgent help button, and Settings is always top right.</li>
+      <li>The app works without an account. An account adds history, patterns and the doctor summary.</li>
+    </ul>
+  </section>
+
+  <section id="session">
+    <h2>Help session</h2>
+    <p class="intro">Two minutes of breathing, then one question with four answers. The answer decides the next page.</p>
+    <div class="chart" data-flow="f-session"><p class="wait">Loading chart…</p></div>
+    <ul class="notes">
+      <li>“How are you now? asked again” follows the same four answers as the first time.</li>
+      <li>“About the same” leads to something new to try the first time, and to the help page the second time.</li>
+      <li>After “You're getting through it” or the help page, the count starts again.</li>
+      <li>“Breathe at your own pace” has no timer and asks nothing. Its buttons are the answer.</li>
+      <li>After 20 minutes, a note at the top of every help page suggests contacting a doctor.</li>
+    </ul>
+  </section>
+
+  <section id="chat">
+    <h2>AI chat</h2>
+    <p class="intro">Every message goes through four checks. The AI only answers when the message is safe to answer, and its reply is checked again before it shows.</p>
+    <div class="chart" data-flow="f-chat"><p class="wait">Loading chart…</p></div>
+    <ul class="notes">
+      <li>The chat says clearly that it's an AI. Messages are never saved and never include the email or name.</li>
+      <li>If the message is about the body (chest pain, can't breathe), the reply adds an emergency note and suggests grounding.</li>
+      <li>The risk check and the reply together get at most 10 seconds. After that the fixed calm message shows.</li>
+      <li>After “No, it's the panic”, a second warning sign in the same chat counts as a crisis.</li>
+    </ul>
+  </section>
+
+  <section id="pause">
+    <h2>Crisis pause</h2>
+    <p class="intro">After a crisis message the AI stays quiet for 24 hours and the app points to people instead.</p>
+    <div class="chart" data-flow="f-pause"><p class="wait">Loading chart…</p></div>
+    <ul class="notes">
+      <li>The pause is kept on the phone and, with an account, on the server. It holds after closing the app and on every device.</li>
+      <li>There's no button to end it early.</li>
+    </ul>
+  </section>
+
+  <section id="calm">
+    <h2>Calm check</h2>
+    <p class="intro">One minute of slow breathing with a fingertip on the back camera. The result is about the rhythm, not the heart rate number.</p>
+    <div class="chart" data-flow="f-calm"><p class="wait">Loading chart…</p></div>
+    <ul class="notes">
+      <li>Only the average colour of each camera frame is used. The video is never saved and never leaves the phone.</li>
+      <li>“Steadier” compares with your usual level from earlier checks. The first times it uses a fixed level.</li>
+      <li>The words are always kind. There's no score, no “low” and no “failed”.</li>
+    </ul>
+  </section>
+
+  <section id="account">
+    <h2>Account and saving</h2>
+    <p class="intro">Sign up with an email code, then the app keeps you logged in quietly in the background.</p>
+    <div class="chart" data-flow="f-account"><p class="wait">Loading chart…</p></div>
+    <ul class="notes">
+      <li>A session is saved from its first real step, so it's kept even if it ends early.</li>
+      <li>Patterns show after 5 sessions and only state counts and averages, never causes.</li>
+      <li>The doctor summary is made on the phone. Nothing is sent unless you share it.</li>
+      <li>Delete my history removes sessions and calm checks. Delete my account removes everything.</li>
+    </ul>
+  </section>
+
+  <footer>Breathe With Me · support tool, not treatment</footer>
+</div>
+
+<script type="text/x-flow" id="f-overview">
+flowchart TD
+  H(["Home"]) --> S["Start"]
+  H --> C["Calm check"]
+  H --> HI["My history"]
+  H --> ST["Settings"]
+  S --> SES["Help session"]
+  SES -.-> U["Urgent help"]
+  HI --> P["Your patterns"] --> D["Summary for my doctor"] --> PDF["PDF or share"]
+  ST --> TC["People you trust"]
+  ST --> CO["Country and emergency number"]
+  ST --> DEL["Delete history or account"]
+  TC -.-> U
+  CO -.-> U
+  class H,S,C,HI,ST,SES,P,D,TC,CO,DEL screen
+  class U help
+  class PDF save
+</script>
+
+<script type="text/x-flow" id="f-session">
+flowchart TD
+  A(["Start"]) --> B["Breathe 2 minutes<br/>4 s in, 6 s out"]
+  B -.->|any time| U["Urgent help"]
+  B --> Q{"How are<br/>you now?"}
+  Q -->|Worse| W["I'm here with you<br/>4 warning signs"]
+  Q -->|About the same<br/>2nd time| N["Not feeling better yet?"]
+  Q -->|About the same<br/>1st time| T["Let's try something else"]
+  Q -->|Better| G["You're getting through it."]
+  Q -->|I'm fine now| P["You did it. It passed."]
+  W -->|Yes, I have one| E["Call emergency services"]
+  W -->|No, it's the panic| OP2["Breathe at your own pace<br/>no timer, no questions"]
+  N --> CT["Call someone you trust"]
+  N --> E
+  N --> OP2
+  T --> GR["Grounding<br/>5 · 4 · 3 · 2 · 1"]
+  T --> CH["Talk to me<br/>AI chat"]
+  T --> KB["Keep breathing<br/>2 more minutes"]
+  GR & CH & KB --> QA(["How are you now?<br/>asked again"])
+  OP2 -->|I feel better| QA
+  G --> OP["Breathe at my own pace"]
+  OP -->|It's not passing| N
+  OP -->|I'm fine now| P
+  G & P --> CC["Calm check"]
+  G & P --> DN["I'm done for now"]
+  DN --> LG{"Logged in?"}
+  LG -->|yes| QS["Optional questions"] --> SV["Session saved"]
+  LG -->|no| OFF["Offer an account"]
+  class A,B,W,N,T,G,P,OP,OP2,GR,KB,CC,DN,QS,OFF,QA screen
+  class Q,LG ask
+  class CH ai
+  class U,E,CT help
+  class SV save
+</script>
+
+<script type="text/x-flow" id="f-chat">
+flowchart TD
+  M(["Message sent"]) --> PZ{"Chat paused?"}
+  PZ -->|yes| SUP["Support screen<br/>no AI"]
+  PZ -->|no| R1{"1 · Rules<br/>crisis words?"}
+  R1 -->|yes| CR["Crisis<br/>urgent help + 24 h pause"]
+  R1 -->|no| LIM{"Over 6<br/>messages?"}
+  LIM -->|yes| LM["Fixed message<br/>reach out to someone"]
+  LIM -->|no| R2{"2 · AI risk check<br/>last 3 messages"}
+  R2 -->|risk| SAFE{"Are you safe?"}
+  R2 -->|no answer, once per chat| SAFE
+  R2 -->|not English| EN["English-only message<br/>breathing or grounding"]
+  R2 -->|no risk| R3["3 · AI reply"]
+  R3 -->|no reply in time| CALM["Fixed calm message"]
+  R3 --> R4{"4 · Reply check"}
+  R4 -->|sounds like a crisis| SAFE
+  R4 -->|medicine, too long, deep breaths, not English| FX["Fixed message instead"]
+  R4 -->|ok| OK["Reply + next step"]
+  SAFE -->|Yes, I need help now| CR
+  SAFE -->|No, it's the panic| CONT["Thank you<br/>chat goes on"]
+  class M,SUP,LM,EN,CALM,FX,OK,CONT screen
+  class PZ,R1,LIM,SAFE,R4 ask
+  class R2,R3 ai
+  class CR help
+</script>
+
+<script type="text/x-flow" id="f-pause">
+flowchart TD
+  A["Crisis message<br/>or Yes, I need help now"] --> B["Urgent help opens"]
+  B --> C["Paused until now + 24 h"]
+  C --> D["Chat shows the support screen<br/>Talk to me greyed out on other pages"]
+  D -->|another crisis| C
+  D -->|24 hours pass| E["Next chat starts with a check-in"]
+  E -->|A bit better · Still hard| F["Chat goes on as normal"]
+  E -->|I need a person| U["Urgent help"]
+  class A,D,E,F screen
+  class B,U help
+  class C save
+</script>
+
+<script type="text/x-flow" id="f-calm">
+flowchart TD
+  A(["Calm check"]) --> IA{"iPhone app?"}
+  IA -->|no, browser| WEB["Works in the iPhone app only"]
+  IA -->|yes| IN["1 minute, 6 slow breaths"]
+  IN --> MS["Fingertip on the camera, flash on<br/>breathe with the circle"]
+  MS --> AN{"Clear pulse?"}
+  AN -->|no| TR{"Tried twice?"}
+  TR -->|no| RT["Let's try again"] --> MS
+  TR -->|yes| SK["That's okay<br/>skipped, nothing saved"]
+  AN -->|yes| LV{"Rhythm follows the breath?"}
+  LV -->|yes| STD["Your rhythm looks steadier"]
+  LV -->|not yet| SET["Settling"]
+  SET --> SL["Breathe a little longer<br/>1 min, 5 s in, 7 s out"]
+  STD & SET --> LOG{"Logged in?"}
+  LOG -->|yes| SAVE["Saved<br/>heart rate + result"]
+  class A,WEB,IN,MS,RT,SK,STD,SET,SL screen
+  class IA,AN,TR,LV,LOG ask
+  class SAVE save
+</script>
+
+<script type="text/x-flow" id="f-account">
+flowchart TD
+  SU["Create account<br/>email, password, 18+, consent"] --> PC{"Password ok?<br/>12+ characters, not common,<br/>not leaked, not the email name"}
+  PC -->|no| ERR["Red message under the form"]
+  PC -->|yes| DC{"Email can receive mail?"}
+  DC -->|no| ERR
+  DC -->|yes| CODE["6-digit code by email<br/>15 minutes, 5 tries"]
+  CODE --> ACC["Account created"]
+  LI["Log in"] --> TK
+  ACC --> TK["Logged in<br/>1 h key + 90-day key in the Keychain"]
+  TK -->|1 h key runs out| RF["Quiet refresh<br/>new pair of keys"] --> TK
+  RF -->|90 days unused, password changed or key copied| OUT["Log in again"]
+  FP["Forgot password"] --> CODE2["Code by email"] --> NP["New password<br/>other devices logged out"]
+  TK --> EP["Each session saved<br/>from its first step"]
+  EP --> HI["History, then patterns after 5 sessions"]
+  class SU,ERR,CODE,ACC,LI,TK,RF,OUT,FP,CODE2,NP screen
+  class PC,DC ask
+  class EP,HI save
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10.9.1/dist/mermaid.min.js"></script>
+<script>
+(function () {
+  const css = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+  async function draw() {
+    if (!window.mermaid) return
+    const v = {
+      bg: css('--surface'), ink: css('--ink'), muted: css('--muted'), line: css('--line'), sage: css('--sage'),
+      pist: css('--pistachio'), lav: css('--lavender'), lavInk: css('--lav-ink'),
+      blush: css('--blush'), rose: css('--rose'), sky: css('--sky'), skyInk: css('--sky-ink'),
+    }
+    mermaid.initialize({
+      startOnLoad: false, securityLevel: 'strict', theme: 'base',
+      fontFamily: '"Lato", -apple-system, "Helvetica Neue", sans-serif',
+      flowchart: { curve: 'basis', htmlLabels: true, padding: 12, nodeSpacing: 34, rankSpacing: 44, useMaxWidth: false },
+      themeVariables: {
+        fontSize: '15px', background: v.bg, primaryColor: v.bg, primaryTextColor: v.ink, primaryBorderColor: v.sage,
+        lineColor: v.muted, textColor: v.ink, edgeLabelBackground: v.bg, tertiaryColor: v.bg,
+      },
+    })
+    const classes = `
+  classDef screen fill:${v.bg},stroke:${v.sage},stroke-width:1.5px,color:${v.ink}
+  classDef ask fill:${v.pist},stroke:${v.sage},stroke-width:1.5px,color:${v.ink}
+  classDef ai fill:${v.lav},stroke:${v.lavInk},stroke-width:1.5px,color:${v.ink}
+  classDef help fill:${v.blush},stroke:${v.rose},stroke-width:1.5px,color:${v.rose}
+  classDef save fill:${v.sky},stroke:${v.skyInk},stroke-width:1.5px,color:${v.ink}`
+    let n = 0
+    for (const box of document.querySelectorAll('[data-flow]')) {
+      const src = document.getElementById(box.dataset.flow).textContent + classes
+      try {
+        const { svg } = await mermaid.render(`svg-${box.dataset.flow}-${n++}`, src)
+        box.innerHTML = svg
+        const el = box.querySelector('svg')
+        el.removeAttribute('height')
+        el.style.maxWidth = el.getAttribute('width') ? el.getAttribute('width') + 'px' : ''
+        el.setAttribute('width', '100%')
+        el.setAttribute('role', 'img')
+        el.setAttribute('aria-label', box.previousElementSibling?.textContent || 'Flow chart')
+      } catch (err) {
+        box.innerHTML = '<p class="wait">This chart could not be drawn.</p>'
+        console.error(err)
+      }
+    }
+  }
+  const start = () => (document.fonts?.ready ?? Promise.resolve()).then(draw)
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start)
+  else start()
+  // redraw in the other colours when the theme changes
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', draw)
+  new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+})()
+</script>
+
+</body>
+</html>
