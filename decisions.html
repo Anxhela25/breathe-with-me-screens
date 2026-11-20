@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Breathe With Me Decisions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,400;0,700;0,900;1,400&family=Fraunces:opsz,wght@9..144,600&display=swap">
+<style>
+:root {
+  --bg: #F7F6F1; --surface: #FFFFFF; --ink: #2F4136; --muted: #5E7466; --line: #DCE3D6;
+  --sage: #4A6355; --pistachio: #E2EADA;
+  --display: "Fraunces", Georgia, serif; --body: "Lato", -apple-system, "Helvetica Neue", sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #141A16; --surface: #1C241F; --ink: #E4ECE2; --muted: #9DB0A2; --line: #2C3830;
+  --sage: #A9C4B0; --pistachio: #26332B; color-scheme: dark } }
+:root[data-theme="dark"] {
+  --bg: #141A16; --surface: #1C241F; --ink: #E4ECE2; --muted: #9DB0A2; --line: #2C3830;
+  --sage: #A9C4B0; --pistachio: #26332B; color-scheme: dark }
+* { box-sizing: border-box }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 1000px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 40px 64px; }
+.eyebrow { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+h1 { font-family: var(--display); font-weight: 600; font-size: clamp(32px, 5vw, 46px); line-height: 1.1; margin: 8px 0 12px; text-wrap: balance; }
+.lede { margin: 0; color: var(--muted); max-width: 68ch; }
+nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+nav a { color: var(--ink); text-decoration: none; font-size: 13px; font-weight: 700; padding: 6px 12px; border-radius: 999px; background: var(--pistachio); }
+nav a:hover, nav a:focus-visible { outline: 2px solid var(--sage); outline-offset: 1px; }
+section { padding-top: 44px; scroll-margin-top: 16px; }
+h2 { font-family: var(--display); font-weight: 600; font-size: 28px; margin: 0 0 8px; }
+h3 { font-size: 18px; margin: 28px 0 8px; }
+p { margin: 0 0 12px; max-width: 75ch; }
+.table { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); margin: 14px 0; }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; min-width: 640px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 14px; border-bottom: 1px solid var(--line); }
+th { background: var(--pistachio); font-weight: 700; font-size: 13px; }
+tr:last-child td { border-bottom: 0; }
+td:first-child { font-weight: 700; }
+.narrow table { min-width: 0; }
+.basis { color: var(--muted); white-space: nowrap; }
+a { color: var(--sage); }
+ol.refs { padding-left: 28px; font-size: 14px; display: grid; gap: 6px; max-width: 90ch; }
+ol.refs a { word-break: break-word; }
+footer { margin-top: 56px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--muted); font-size: 13px; }
+@media (max-width: 700px) { .basis { white-space: normal; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <span class="eyebrow">iPhone app · 20 November 2026</span>
+  <h1>Breathe With Me: Technology and Decisions</h1>
+  <p class="lede">Breathe With Me is an iPhone app that guides a person through a panic attack with a breathing circle, a 5-4-3-2-1 grounding exercise and a short AI chat that is safety-checked at every step. A Python backend keeps accounts, history and the safety logic. This page lists the technologies we used and why, then the main architecture and design decisions with the evidence behind them. Numbers in square brackets point to the references at the end.</p>
+  <nav aria-label="Sections">
+    <a href="#tech">Technologies</a><a href="#architecture">Architecture</a><a href="#design">Design</a><a href="#refs">References</a>
+    <a href="./">All screens →</a><a href="flow.html">How it works →</a>
+  </nav>
+
+  <section id="tech">
+    <h2>Technologies we used</h2>
+    <p>The app is a React web app inside a native iPhone shell, talking to a Python API with a PostgreSQL database. Everything runs on free plans.</p>
+    <div class="table"><table>
+      <thead><tr><th>Part</th><th>Technology</th><th>What we use it for</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>App screens</td><td>React 19, React Router</td><td>Every screen and the whole help flow</td><td>Fast to build and test; one codebase for the phone and the browser</td></tr>
+        <tr><td>App build</td><td>Vite, Tailwind CSS</td><td>Building the app; styling with the colour and spacing tokens</td><td>Quick rebuilds while developing; consistent design from one set of tokens</td></tr>
+        <tr><td>iPhone app</td><td>Capacitor 8</td><td>Wraps the React app as a real iPhone app</td><td>The calm check needs the camera and flash, which only a native app can control reliably</td></tr>
+        <tr><td>Native code</td><td>Swift (two small plugins)</td><td>Camera and flash for the calm check; storing the login in the iPhone Keychain</td><td>The Keychain is Apple's secure, encrypted store for passwords and tokens [23]</td></tr>
+        <tr><td>Phone features</td><td>Capacitor Share and Filesystem, jsPDF, libphonenumber</td><td>Sharing the doctor PDF; making the PDF on the phone; checking phone numbers of trusted contacts</td><td>The PDF is built on the device, so health data is never uploaded to make it</td></tr>
+        <tr><td>Backend</td><td>Python, FastAPI, Uvicorn</td><td>The API: accounts, sessions, calm checks, insights, the chat and its safety checks</td><td>Simple and fast; automatic data validation with Pydantic</td></tr>
+        <tr><td>Database access</td><td>SQLAlchemy, Alembic</td><td>Tables and queries; versioned changes to the database</td><td>Every database change is a migration that runs the same way locally and online</td></tr>
+        <tr><td>Security</td><td>bcrypt, PyJWT</td><td>Hashing passwords; signed login tokens</td><td>Standard, well-reviewed libraries</td></tr>
+        <tr><td>Database</td><td>PostgreSQL on Neon</td><td>Users, contacts, sessions, calm checks, login tokens</td><td>Managed Postgres with a free plan, hosted in Frankfurt (EU)</td></tr>
+        <tr><td>Hosting</td><td>Render</td><td>Runs the backend online; runs migrations, then the API, on every push</td><td>Free plan, deploys from GitHub automatically, Frankfurt region</td></tr>
+        <tr><td>Email</td><td>Brevo (Gmail and Resend as fallbacks)</td><td>Sign-up and password reset codes</td><td>Render's free plan blocks Gmail's mail ports; Brevo sends over HTTPS</td></tr>
+        <tr><td>AI</td><td>Groq and Google Gemini</td><td>The chat's risk check and short replies</td><td>Free plans while developing; if one fails, the next is tried</td></tr>
+        <tr><td>Error reports</td><td>Sentry</td><td>Emails us when the app or the server breaks</td><td>Finds problems fast; set up to send nothing personal (no chat text, emails or passwords)</td></tr>
+        <tr><td>Testing</td><td>pytest, Node test runner, ESLint</td><td>217 backend tests, the help-flow rules, code checks</td><td>The safety rules and the flow must not break when the code changes</td></tr>
+        <tr><td>Code and pages</td><td>GitHub, GitHub Pages</td><td>Version control; these presentation pages</td><td>Render deploys from GitHub; Pages hosts these pages for free</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="architecture">
+    <h2>Architecture decisions</h2>
+    <p>The main rule behind the architecture: help must work instantly and safely, even when the internet, the AI or the account does not.</p>
+    <div class="table"><table>
+      <thead><tr><th>Decision</th><th>What we built</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Help works without an account</td><td>Breathing, grounding, the chat and urgent help need no login. History is saved only with an account.</td><td>In a panic, nobody should be stopped by a sign-up form. Health data is stored only with explicit consent, as GDPR requires for health data [26].</td></tr>
+        <tr><td>Safety never depends on the AI</td><td>Every chat message passes four checks: fixed rules for crisis words first, then an AI risk check, then the AI reply, then a check of that reply.</td><td>Leading AI chatbots answer suicide-related questions inconsistently [13]. Clear crisis messages never reach the AI.</td></tr>
+        <tr><td>Fail safe, not silent</td><td>If the risk check gets no answer, the chat asks "Are you safe?". If no AI answers within 10 seconds, a fixed calm message shows.</td><td>An outage must lead to a safer step, never to no reply or an unchecked one.</td></tr>
+        <tr><td>Crisis words match typos</td><td>"i wnat to diee" or "kill myselv" count as crisis words.</td><td>People in distress type fast. A false alarm is better than a missed crisis.</td></tr>
+        <tr><td>Chat in English only, 6 messages</td><td>Other languages get the breathing and grounding options. After 6 messages the chat points to people.</td><td>The safety word lists are in English only, so other languages can't be checked. A long chat is not a replacement for a person.</td></tr>
+        <tr><td>Crisis pause on phone and server</td><td>After a crisis message the pause is saved on the phone and, with an account, on the server.</td><td>It holds after closing the app, without internet and on every device.</td></tr>
+        <tr><td>Two login keys</td><td>A 1-hour access key and a 90-day refresh key that is replaced on every use, kept in the iPhone Keychain [23, 24].</td><td>People open the app when an attack comes, often weeks apart. They should never be logged out at that moment, and a copied key stops working.</td></tr>
+        <tr><td>Passwords and codes</td><td>At least 12 characters; common and leaked passwords refused [21, 25]. Email codes last 15 minutes, work once, are stored as a hash and allow 5 tries [22].</td><td>Length protects better than forced symbols [21]. Only part of a hash leaves the server for the leak check [25].</td></tr>
+        <tr><td>Calm check on the phone</td><td>Only the average colour of each camera frame is used. The pulse is found by signal processing, not AI.</td><td>The video never leaves the phone.</td></tr>
+        <tr><td>Private by default</td><td>Chat messages are never saved. Logs and error reports never contain emails, passwords or chat text. The doctor PDF is made on the phone.</td><td>It's health data. Only what the user chooses to share leaves the device.</td></tr>
+        <tr><td>Database changes as migrations</td><td>Render runs the migrations before starting the API on every deploy.</td><td>The database always matches the code, locally and online.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section id="design">
+    <h2>Design decisions</h2>
+    <p>Each value below is either taken from research, taken from a published standard, or set by us with a reason. We never present a design choice as a medical fact.</p>
+    <div class="table"><table>
+      <thead><tr><th>Decision</th><th>Why</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td>4 s in, 6 s out<br><span class="basis">6 breaths a minute</span></td><td>6 breaths a minute is the rate most used in heart-rate-variability research, where breathing and heart rhythm move together [3, 4]. A longer out-breath improved mood in a randomised trial [6]. No exact rhythm has been shown to be better than another [5], so we chose the standard one, which the calm check also uses. The circle asks for slow breathing, never deep breathing [27].</td><td class="basis">Research</td></tr>
+        <tr><td>2 minutes before "How are you now?"</td><td>Research protocols hold each breathing rate for 2 minutes [7], and most of the short-term heart-rate change appears within the first 2 minutes [8].</td><td class="basis">Research protocol</td></tr>
+        <tr><td>Four word answers</td><td>I'm fine now, Better, About the same, Worse. Anxiety takes up attention and working memory [9]. Picking one of four words needs less thought than rating, and rating scales are not precise measures anyway [10].</td><td class="basis">Design choice, informed by [9, 10]</td></tr>
+        <tr><td>"About the same" twice leads to people</td><td>Two blocks of help without change show the attack is lasting. That is when calling someone or emergency services is suggested, without alarming the user too early.</td><td class="basis">Design choice</td></tr>
+        <tr><td>"Worse" first checks for a medical emergency</td><td>Chest pain, trouble breathing, pain in the arm or jaw and fainting can also be heart problems, so these are ruled out before more breathing.</td><td class="basis">Design choice, for safety</td></tr>
+        <tr><td>20-minute note</td><td>A panic attack peaks within minutes [1] and most last 5 to 20 minutes [2]. After 20 minutes the app suggests contacting a doctor.</td><td class="basis">Clinical guidance</td></tr>
+        <tr><td>24-hour chat pause after a crisis</td><td>In one study, almost half of suicide attempts came 10 minutes or less after the first suicidal thought, and many people were still open to contact with family or friends [14]. Care guidance recommends a follow-up call within 24 hours after leaving care [15]. AI is not reliable at this point [13]. For 24 hours the chat shows people to call instead of the AI, and there is no button to end it early.</td><td class="basis">Design choice, informed by [13, 14, 15]</td></tr>
+        <tr><td>Grounding order: see, touch, hear, smell, taste</td><td>Grounding moves attention to the present surroundings [11]. Sight is the dominant sense [12], so the exercise starts with the most items and the easiest sense, and ends with the senses that are hardest to use. It's also the standard order people may already know.</td><td class="basis">Standard practice [11, 12]</td></tr>
+        <tr><td>Calm check in words, never numbers for the rhythm</td><td>Phone camera heart rate agrees with ECG under good conditions but varies with the phone [19]. One minute is enough for a basic resting measure [20]. So the rhythm result is shown as kind words, compared only with the user's own earlier checks.</td><td class="basis">Research [19, 20]</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3>Colours and touch targets</h3>
+    <p>The palette is soft and muted: deep sage #4A6355 for the main buttons and text, dark green #2F4136 for headings, pistachio #E2EADA for the breathing circle and warm cream #F7F6F1 for the background. Emergency buttons use a soft pink #F6E1DC with deep rose text #8E433B, so they stand out without being scary. Evidence that specific colours reduce anxiety is limited [16], so the palette is a design choice, not a treatment. What we can measure is readability:</p>
+    <div class="table narrow"><table>
+      <thead><tr><th>Text on background</th><th>Contrast</th><th>WCAG 2.2 AA, normal text (4.5:1) [17]</th></tr></thead>
+      <tbody>
+        <tr><td>Dark green on cream</td><td>10.1 : 1</td><td>Pass</td></tr>
+        <tr><td>White on the sage button</td><td>6.5 : 1</td><td>Pass</td></tr>
+        <tr><td>Sage on cream</td><td>6.1 : 1</td><td>Pass</td></tr>
+        <tr><td>Rose on the pink emergency button</td><td>5.5 : 1</td><td>Pass</td></tr>
+        <tr><td>Sage on the pistachio circle</td><td>5.3 : 1</td><td>Pass</td></tr>
+      </tbody>
+    </table></div>
+    <p>The main buttons are 48 to 60 points tall, above Apple's 44-point minimum [18], so they are easy to hit with shaky hands.</p>
+  </section>
+
+  <section id="refs">
+    <h2>References</h2>
+    <ol class="refs">
+      <li>American Psychiatric Association. (2022). <i>Diagnostic and Statistical Manual of Mental Disorders</i> (5th ed., text rev.; DSM-5-TR). Panic attack specifier.</li>
+      <li>NHS. <i>Panic disorder</i>. <a href="https://www.nhs.uk/mental-health/conditions/panic-disorder/">nhs.uk/mental-health/conditions/panic-disorder</a></li>
+      <li>Lehrer, P. M., &amp; Gevirtz, R. (2014). Heart rate variability biofeedback: how and why does it work? <i>Frontiers in Psychology, 5</i>, 756. <a href="https://doi.org/10.3389/fpsyg.2014.00756">doi.org/10.3389/fpsyg.2014.00756</a></li>
+      <li>Zaccaro, A., et al. (2018). How breath-control can change your life: a systematic review on psycho-physiological correlates of slow breathing. <i>Frontiers in Human Neuroscience, 12</i>, 353. <a href="https://doi.org/10.3389/fnhum.2018.00353">doi.org/10.3389/fnhum.2018.00353</a></li>
+      <li>Fincham, G. W., Strauss, C., &amp; Cavanagh, K. (2023). Effect of coherent breathing on mental health and wellbeing: a randomised placebo-controlled trial. <i>Scientific Reports, 13</i>. <a href="https://doi.org/10.1038/s41598-023-49279-8">doi.org/10.1038/s41598-023-49279-8</a></li>
+      <li>Balban, M. Y., et al. (2023). Brief structured respiration practices enhance mood and reduce physiological arousal. <i>Cell Reports Medicine, 4</i>(1), 100895. <a href="https://doi.org/10.1016/j.xcrm.2022.100895">doi.org/10.1016/j.xcrm.2022.100895</a></li>
+      <li>Lehrer, P. M., Vaschillo, E., &amp; Vaschillo, B. (2000). Resonant frequency biofeedback training to increase cardiac variability: rationale and manual for training. <i>Applied Psychophysiology and Biofeedback, 25</i>(3), 177–191.</li>
+      <li>Tabor, A., Bateman, S., Scheme, E. J., &amp; schraefel, m. c. (2022). Comparing heart rate variability biofeedback and simple paced breathing to inform the design of guided breathing technologies. <i>Frontiers in Computer Science, 4</i>. <a href="https://doi.org/10.3389/fcomp.2022.926649">doi.org/10.3389/fcomp.2022.926649</a></li>
+      <li>Eysenck, M. W., Derakshan, N., Santos, R., &amp; Calvo, M. G. (2007). Anxiety and cognitive performance: attentional control theory. <i>Emotion, 7</i>(2), 336–353. <a href="https://doi.org/10.1037/1528-3542.7.2.336">doi.org/10.1037/1528-3542.7.2.336</a></li>
+      <li>Mattera, E., &amp; Zaboski, B. (2025). Rethinking the Subjective Units of Distress Scale: validity and clinical utility of the SUDS. <i>Clinics and Practice, 15</i>(7), 123. <a href="https://doi.org/10.3390/clinpract15070123">doi.org/10.3390/clinpract15070123</a></li>
+      <li>Najavits, L. M. (2002). <i>Seeking Safety: A Treatment Manual for PTSD and Substance Abuse</i>. Guilford Press. Grounding.</li>
+      <li>Spence, C. (2009). Explaining the Colavita visual dominance effect. <i>Progress in Brain Research, 176</i>, 245–258.</li>
+      <li>McBain, R. K., et al. (2025). Evaluation of alignment between large language models and expert clinicians in suicide risk assessment. <i>Psychiatric Services</i>. <a href="https://doi.org/10.1176/appi.ps.20250086">doi.org/10.1176/appi.ps.20250086</a></li>
+      <li>Deisenhammer, E. A., et al. (2009). The duration of the suicidal process: how much time is left for intervention between consideration and accomplishment of a suicide attempt? <i>Journal of Clinical Psychiatry, 70</i>(1), 19–24. <a href="https://pubmed.ncbi.nlm.nih.gov/19026258/">PubMed 19026258</a></li>
+      <li>National Action Alliance for Suicide Prevention. (2019). <i>Best Practices in Care Transitions for Individuals with Suicide Risk: Inpatient Care to Outpatient Care</i>. <a href="https://theactionalliance.org/sites/default/files/report_-_best_practices_in_care_transitions_final.pdf">theactionalliance.org</a></li>
+      <li>Elliot, A. J., &amp; Maier, M. A. (2014). Color psychology: effects of perceiving color on psychological functioning in humans. <i>Annual Review of Psychology, 65</i>, 95–120.</li>
+      <li>World Wide Web Consortium. (2023). <i>Web Content Accessibility Guidelines (WCAG) 2.2</i>. Success criterion 1.4.3 (Contrast, Minimum).</li>
+      <li>Apple. <i>Human Interface Guidelines: Accessibility</i> (minimum touch target 44 × 44 pt).</li>
+      <li>Mather, J. D., Hayes, L. D., Mair, J. L., &amp; Sculthorpe, N. F. (2024). Validity of resting heart rate derived from contact-based smartphone photoplethysmography compared with electrocardiography: a scoping review and checklist for optimal acquisition and reporting. <i>Frontiers in Digital Health, 6</i>, 1326511. <a href="https://doi.org/10.3389/fdgth.2024.1326511">doi.org/10.3389/fdgth.2024.1326511</a></li>
+      <li>Nussinovitch, U., et al. (2011). Reliability of ultra-short ECG indices for heart rate variability. <i>Annals of Noninvasive Electrocardiology, 16</i>(2), 117–122. <a href="https://doi.org/10.1111/j.1542-474X.2011.00417.x">doi.org/10.1111/j.1542-474X.2011.00417.x</a></li>
+      <li>National Institute of Standards and Technology. (2025). <i>Digital Identity Guidelines: Authentication and Authenticator Management</i> (SP 800-63B-4).</li>
+      <li>OWASP. <i>Forgot Password Cheat Sheet</i>. <a href="https://cheatsheetseries.owasp.org/cheatsheets/Forgot_Password_Cheat_Sheet.html">cheatsheetseries.owasp.org</a></li>
+      <li>Apple. <i>Keychain Services</i>. Apple Developer Documentation. <a href="https://developer.apple.com/documentation/security/keychain-services">developer.apple.com</a></li>
+      <li>Lodderstedt, T., Bradley, J., Labunets, A., &amp; Fett, D. (2025). <i>Best Current Practice for OAuth 2.0 Security</i> (RFC 9700). IETF. <a href="https://www.rfc-editor.org/rfc/rfc9700">rfc-editor.org/rfc/rfc9700</a></li>
+      <li>Hunt, T. (2018). <i>I've just launched Pwned Passwords version 2</i>. Range search with k-anonymity. <a href="https://www.troyhunt.com/ive-just-launched-pwned-passwords-version-2/">troyhunt.com</a></li>
+      <li>European Union. (2016). <i>General Data Protection Regulation</i> (Regulation (EU) 2016/679), Article 9: processing of special categories of personal data.</li>
+      <li>Meuret, A. E., Wilhelm, F. H., Ritz, T., &amp; Roth, W. T. (2003). Breathing training for treating panic disorder: useful intervention or impediment? <i>Behavior Modification, 27</i>(5), 731–754.</li>
+    </ol>
+  </section>
+
+  <footer>Breathe With Me · support tool, not treatment</footer>
+</div>
+</body>
+</html>
